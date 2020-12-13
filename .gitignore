@@ -1,2 +1,6 @@
 # ignore python bytecode files
 *.pyc
+
+# ignore virtual environment files
+gen
+.vscode
