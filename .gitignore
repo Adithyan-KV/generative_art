@@ -4,3 +4,6 @@
 # ignore virtual environment files
 gen
 .vscode
+
+#ignore all the temperory testing stuff
+test_images
