@@ -1,27 +1,16 @@
 import matplotlib.pyplot as plt
+import matplotlib.cbook
 import numpy as np
 import random
 import time
+import warnings
+
+warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 
 def main():
-    steps = 200
-    num_walks = 3
-    walks = []
-    for _ in range(num_walks):
-        x, y = random_walk_2d(steps)
-        walks.append([x, y])
-        colors = ['#fc8621', '#c24914', '#682c0e']
-    for i in range(steps):
-        for j in range(num_walks):
-            walk = walks[j]
-            plt.plot(walk[0][:i], walk[1][:i], color=colors[j])
-        ax = plt.axes()
-        ax.set_facecolor('#f9e0ae')
-        plt.axis('off')
-        plt.xlim(-100, 100)
-        plt.ylim(-100, 100)
-        plt.savefig(f'./test_images/walk_{i}.png')
+    # generate_walk_image_seq(3, 1000)
+    generate_multiple_walk_image(10, 10000)
 
 
 def timer(func):
@@ -30,9 +19,39 @@ def timer(func):
         result = func(*args, **kwargs)
         end = time.time()
         t = end - start
-        print(t)
+        print(f'time taken:{t}s')
         return result
     return time_it
+
+
+def generate_multiple_walk_image(num_walks, steps):
+    for _ in range(num_walks):
+        x, y = random_walk_2d(steps)
+        plt.plot(x, y)
+    plt.axis('off')
+    plt.show()
+
+
+@timer
+def generate_walk_image_seq(num_walks, steps):
+    walks = []
+    for _ in range(num_walks):
+        x, y = random_walk_2d(steps)
+        walks.append([x, y])
+        colors = ['#efb08c', '#d35d6e', '#5aa469']
+    for i in range(steps):
+        if (i % 100) == 0:
+            print(f'{(i/steps)*100}% completed')
+
+        for j in range(num_walks):
+            walk = walks[j]
+            plt.plot(walk[0][:i], walk[1][:i], color=colors[j])
+        ax = plt.axes()
+        ax.set_facecolor('#f8d49d')
+        plt.axis('off')
+        plt.xlim(-100, 100)
+        plt.ylim(-100, 100)
+        plt.savefig(f'./test_images/walk_{i}.png')
 
 
 def random_walk_1d(steps):
