@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 
 def main():
-    generate_walk_image_seq(3, 1000)
+    generate_walk_image_seq(6, 1000)
     # generate_multiple_walk_image(10, 10000)
 
 
@@ -45,7 +45,7 @@ def generate_walk_image_seq(num_walks, steps):
 
         for j in range(num_walks):
             walk = walks[j]
-            plt.plot(walk[0][:i], walk[1][:i], color=colors[j])
+            plt.plot(walk[0][:i], walk[1][:i])
         ax = plt.axes()
         ax.set_facecolor('#f8d49d')
         plt.axis('off')

@@ -10,8 +10,8 @@ warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 def main():
     for i in range(50):
-        filename = f'./test_images/streaks/streaks_{i}.png'
-        make_streaks_art(200, 1000, filename)
+        filename = f'./test_images/streaks/streaks_thick_{i}.png'
+        make_streaks_art(40, 1000, filename)
 
 
 def make_streaks_art(number, steps, filename):
@@ -19,7 +19,7 @@ def make_streaks_art(number, steps, filename):
     base_hue = base_color_hsv[0]
     base_value = base_color_hsv[2]
     base_color_rgb = matplotlib.colors.hsv_to_rgb(base_color_hsv)
-    linewidth = random.randint(1, 3)
+    linewidth = random.randint(2, 8)
     sat_array = get_nearby_colors(base_color_hsv, number, 0.3)
     for i in range(number):
         x, y = random_walk(steps)
@@ -37,7 +37,7 @@ def make_streaks_art(number, steps, filename):
     ax.spines['left'].set_visible(False)
     plt.xlim(0, steps)
     plt.ylim(-int(steps / 2), int(steps / 2))
-    plt.savefig(filename)
+    plt.savefig(filename, dpi=300)
     plt.cla()
     # plt.show()
 
