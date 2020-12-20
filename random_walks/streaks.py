@@ -2,26 +2,45 @@ import numpy as np
 import matplotlib.pyplot as plt
 import warnings
 import matplotlib.cbook
+import matplotlib.colors
 import random
 
 warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 
 def main():
-    make_streaks_art(300, 1000)
+    make_streaks_art(200, 1000)
 
 
 def make_streaks_art(number, steps):
-    for _ in range(number):
+    base_color_hsv = get_random_base_color()
+    base_hue = base_color_hsv[0]
+    base_value = base_color_hsv[2]
+    base_color_rgb = matplotlib.colors.hsv_to_rgb(base_color_hsv)
+    sat_array = get_nearby_colors(base_color_hsv, number, 0.3)
+    for i in range(number):
         x, y = random_walk(steps)
-        plt.plot(x, y)
+        color_hsv = [base_hue, sat_array[i], base_value]
+        color_rgb = matplotlib.colors.hsv_to_rgb(color_hsv)
+        plt.plot(x, y, color=color_rgb)
     ax = plt.axes()
     ax = plt.axes()
-    ax.set_facecolor('#f8d49d')
-    # plt.axis('off')
+    ax.set_facecolor(base_color_rgb)
+    plt.axis('off')
     plt.xlim(0, steps)
     plt.ylim(-int(steps / 2), int(steps / 2))
-    plt.show()
+    plt.savefig(f'./test_images/streak.png')
+
+
+def get_random_base_color():
+    hsv = np.random.uniform(0, 1, 3)
+    return hsv
+
+
+def get_nearby_colors(base_color, number, spread):
+    saturations = np.random.normal(base_color[1], spread, number)
+    saturations = saturations.clip(0, 1)
+    return saturations
 
 
 def random_walk(steps):
