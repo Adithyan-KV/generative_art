@@ -9,31 +9,42 @@ warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 
 def main():
-    make_streaks_art(200, 1000)
+    for i in range(50):
+        filename = f'./test_images/streaks/streaks_{i}.png'
+        make_streaks_art(200, 1000, filename)
 
 
-def make_streaks_art(number, steps):
+def make_streaks_art(number, steps, filename):
     base_color_hsv = get_random_base_color()
     base_hue = base_color_hsv[0]
     base_value = base_color_hsv[2]
     base_color_rgb = matplotlib.colors.hsv_to_rgb(base_color_hsv)
+    linewidth = random.randint(1, 3)
     sat_array = get_nearby_colors(base_color_hsv, number, 0.3)
     for i in range(number):
         x, y = random_walk(steps)
         color_hsv = [base_hue, sat_array[i], base_value]
         color_rgb = matplotlib.colors.hsv_to_rgb(color_hsv)
-        plt.plot(x, y, color=color_rgb)
-    ax = plt.axes()
+        plt.plot(x, y, color=color_rgb, linewidth=linewidth)
     ax = plt.axes()
     ax.set_facecolor(base_color_rgb)
-    plt.axis('off')
+    # plt.axis('off')
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
     plt.xlim(0, steps)
     plt.ylim(-int(steps / 2), int(steps / 2))
-    plt.savefig(f'./test_images/streak.png')
+    plt.savefig(filename)
+    plt.cla()
+    # plt.show()
 
 
 def get_random_base_color():
     hsv = np.random.uniform(0, 1, 3)
+    # hsv[2] = 0.8
     return hsv
 
 

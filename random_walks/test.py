@@ -9,8 +9,8 @@ warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 
 def main():
-    # generate_walk_image_seq(3, 1000)
-    generate_multiple_walk_image(10, 10000)
+    generate_walk_image_seq(3, 1000)
+    # generate_multiple_walk_image(10, 10000)
 
 
 def timer(func):
@@ -52,6 +52,7 @@ def generate_walk_image_seq(num_walks, steps):
         plt.xlim(-100, 100)
         plt.ylim(-100, 100)
         plt.savefig(f'./test_images/walk_{i}.png')
+        plt.cla()
 
 
 def random_walk_1d(steps):
